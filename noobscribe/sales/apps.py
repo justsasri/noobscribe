@@ -2,6 +2,6 @@ from django.apps import AppConfig as AppConfigBase
 
 
 class AppConfig(AppConfigBase):
-    name = 'simpellab.sales'
-    label = 'simpellab_sales'
-    verbose_name = 'Simpellab Sales'
+    name = 'noobscribe.sales'
+    label = 'noobscribe_sales'
+    verbose_name = 'Noobscribe Sales'

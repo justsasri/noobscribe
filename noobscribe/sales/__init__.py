@@ -1,1 +1,1 @@
-default_app_config = 'simpellab.sales.apps.AppConfig'
+default_app_config = 'noobscribe.sales.apps.AppConfig'
