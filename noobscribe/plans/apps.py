@@ -3,6 +3,6 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class AppConfig(AppConfigBase):
-    name = 'noobscribe.core'
-    label = 'noobscribe_core'
-    verbose_name = _('NoobScribe Core')
+    name = 'noobscribe.plans'
+    label = 'noobscribe_plans'
+    verbose_name = _('NoobScribe Plans')
