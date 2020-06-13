@@ -5,6 +5,7 @@ Django settings for noobsite project.
 import os
 import django_heroku
 import dj_database_url
+
 from .auth import *
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
