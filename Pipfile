@@ -25,6 +25,10 @@ psycopg2 = "*"
 gunicorn = "*"
 boto3 = "*"
 django-qrcodes = "*"
+django-polymorphic = "*"
+google-api-python-client = "*"
+google-auth-oauthlib = "*"
+google-auth-httplib2 = "*"
 
 [requires]
 python_version = "3.8"
