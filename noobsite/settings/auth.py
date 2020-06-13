@@ -5,6 +5,14 @@ AUTH_USER_MODEL = 'noobscribe_accounts.User'
 
 # Fix Facebook Login failure on callback
 ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_SIGNUP_PASSWORD_VERIFICATION = True
+SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
+ACCOUNT_SESSION_REMEMBER = True
 
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -26,26 +34,26 @@ SOCIALACCOUNT_PROVIDERS = {
     },
     'facebook': {
         'METHOD': 'oauth2',
-        'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
+        # 'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
         'SCOPE': ['email', 'public_profile'],
         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-        'INIT_PARAMS': {'cookie': True},
-        'FIELDS': [
-            'id',
-            'email',
-            'name',
-            'first_name',
-            'last_name',
-            'verified',
-            'locale',
-            'timezone',
-            'link',
-            'gender',
-            'updated_time',
-        ],
-        'EXCHANGE_TOKEN': True,
+        # 'INIT_PARAMS': {'cookie': True},
+        # 'FIELDS': [
+        #     'id',
+        #     'email',
+        #     'name',
+        #     'first_name',
+        #     'last_name',
+        #     'verified',
+        #     'locale',
+        #     'timezone',
+        #     'link',
+        #     'gender',
+        #     'updated_time',
+        # ],
+        # 'EXCHANGE_TOKEN': True,
         # 'LOCALE_FUNC': 'path.to.callable',
-        'VERIFIED_EMAIL': False,
+        # 'VERIFIED_EMAIL': False,
         'VERSION': 'v7.0',
     }
 }
