@@ -8,8 +8,7 @@ ALLOWED_HOSTS = [
 ]
 
 INSTALLED_APPS = [
-    'noobscribe.accounts',
-    'noobscribe.core'
+    # before core apps
 ] + core_apps + [
     # after core apps
 ]
