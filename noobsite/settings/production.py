@@ -4,7 +4,7 @@ from .base import *
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    '*.noobscribe.com'
+    'www.noobscribe.com'
 ]
 
 INSTALLED_APPS = [

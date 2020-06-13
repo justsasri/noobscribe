@@ -16,15 +16,15 @@ SITE_NAME = 'noobscribe'
 BASE_URL = 'https://www.noobscibe.com'
 
 env = environ.Env(
-    SECRET_KEY=(str, 'i&sof=vxv%z15h89yh8dk-@t!!y&7-(y+n1cm@on!-fl=nu3$9'),
+    SECRET_KEY=(str, "i&sof=vxv%z15h89yh8dk-@t!!y&7-(y+n1cm@on!-fl=nu3$9"),
     REDIS_URL=(str, "redis://127.0.0.1:6379/1"),
     AWS_STORAGE_BUCKET_NAME=(str, ""),
-    AWS_ACCESS_KEY_ID=(str, ''),
+    AWS_ACCESS_KEY_ID=(str, ""),
     AWS_SECRET_ACCESS_KEY=(str, ""),
     AWS_S3_CUSTOM_DOMAIN=(str, "")
 )
 
-environ.Env.read_env()
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
@@ -169,7 +169,8 @@ LOGGING = {
         },
         'django.db.backends': {
             'handlers': ['console'],
-            'level': 'ERROR'
+            'level': 'ERROR',
+            'propagate': True,
         },
     },
 }
