@@ -1,7 +1,7 @@
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
-AUTH_USER_MODEL = 'noobscribe_accounts.User';
+AUTH_USER_MODEL = 'noobscribe_accounts.User'
 
 # Fix Facebook Login failure on callback
 ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
