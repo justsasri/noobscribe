@@ -1,13 +1,16 @@
 from django.urls import path, include
 from allauth import urls as allauth_urls
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse, render
 
+
+def home(request):
+    return HttpResponse('home')
 
 def profile(request):
-    return HttpResponse('Profile')
-
+    return render(request, 'accounts/index.html')
 
 urlpatterns = [
+    path('', home),
     path('profile/', profile),
 ]
 
