@@ -48,7 +48,6 @@ DEBUG_TOOLBAR_PANELS = [
 # Activate Django-Heroku.
 django_heroku.settings(locals())
 
-
 try:
     from .local import *
 except ImportError:

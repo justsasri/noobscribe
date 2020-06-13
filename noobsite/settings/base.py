@@ -3,7 +3,6 @@ Django settings for noobsite project.
 
 """
 import os
-import environ
 import django_heroku
 import dj_database_url
 from .auth import *
@@ -15,19 +14,13 @@ SITE_ID = 1
 SITE_NAME = 'noobscribe'
 BASE_URL = 'https://www.noobscibe.com'
 
-env = environ.Env(
-    SECRET_KEY=(str, "i&sof=vxv%z15h89yh8dk-@t!!y&7-(y+n1cm@on!-fl=nu3$9"),
-    REDIS_URL=(str, "redis://127.0.0.1:6379/1"),
-    AWS_STORAGE_BUCKET_NAME=(str, ""),
-    AWS_ACCESS_KEY_ID=(str, ""),
-    AWS_SECRET_ACCESS_KEY=(str, ""),
-    AWS_S3_CUSTOM_DOMAIN=(str, "")
-)
+SECRET_KEY = os.getenv("SECRET_KEY", "i&sof=vxv%z15h89yh8dk-@t!!y&7-(y+n1cm@on!-fl=nu3$9")
+REDIS_URL = os.getenv("REDIS_URL", "redis://127.0.0.1:6379/1")
 
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_S3_CUSTOM_DOMAIN = os.getenv('AWS_S3_CUSTOM_DOMAIN')
 
 # Apps definition
 
@@ -104,7 +97,7 @@ DATABASES = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": env('REDIS_URL'),
+        "LOCATION": REDIS_URL,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient"
         },

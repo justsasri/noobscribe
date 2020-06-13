@@ -4,7 +4,6 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-django-debug-toolbar = "*"
 mkdocs = "*"
 flake8 = "*"
 
@@ -15,11 +14,11 @@ django-filter = "*"
 django-allauth = "*"
 django-recaptcha = "*"
 django-taggit = "*"
-django-environ = "*"
 django-oauth-toolkit = "*"
 django-cors-middleware = "*"
 django-heroku = "*"
 django-storages = "*"
+django-debug-toolbar = "*"
 django-redis = "*"
 psycopg2 = "*"
 gunicorn = "*"
