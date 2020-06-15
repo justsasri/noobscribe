@@ -20,6 +20,16 @@ services:
         volumes:
             - $PWD/redis/data:/var/lib/redis
             - $PWD/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    web:
+        build: .
+        restart: always
+        expose:
+            - "8000"
+        env_file: 
+            - ./.env.dev
+        depends_on: 
+            - db
+            - redis
     nginx:
         build: ./nginx
         volumes:
@@ -29,12 +39,3 @@ services:
             - 1337:80
         depends_on:
             - web
-    web:
-        build: .
-        restart: always
-        ports:
-            - "80:80"
-        depends_on: 
-            - db
-        env_file: 
-            - ./.env.dev
