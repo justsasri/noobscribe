@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+{% if object_list.count == 0 %}
+    <h1>Cart is empty</h1>
+    <a href="{% url 'shop_index' %}">Select Product</a>
+{% else %}
+    {% for item in object_list %}
+        <h1>{{ item.product }}</h1>
+        <ul>
+            <li>Quantity: {{ item.quantity }}</li>
+            <li>Price: {{ item.product.price }} </li>
+        </ul>
+        <form action="{% url 'cart_remove_product' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="item" value="{{ item.id }}">
+            <input type="submit" value="Remove">
+        </form>
+    {% endfor %}
+    <div>
+        <a href="{% url 'shop_index' %}">Continue Shopping</a>
+        <a href="{% url 'cart_checkout' %}">Check Out</a>
+    </div>
+{% endif %}
+</div>
+{% endblock %}

@@ -29,7 +29,7 @@ def get_main_version(version=None):
 
 def get_complete_version(version=None):
     """
-    Return a tuple of the Wagtail version. If version argument is non-empty,
+    Return a tuple of the version. If version argument is non-empty,
     check for correctness of the tuple provided.
     """
     if version is None:

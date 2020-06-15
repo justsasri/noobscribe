@@ -1,0 +1,1 @@
+default_app_config = 'noobscribe.api.rest_v1.apps.AppConfig'

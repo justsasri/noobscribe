@@ -3,35 +3,45 @@ Django settings for noobsite project.
 
 """
 import os
+import environ
 import django_heroku
 import dj_database_url
 
 from .auth import *
+from .queues import *
+from .cache import *
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 SITE_ID = 1
 SITE_NAME = 'noobscribe'
 BASE_URL = 'https://www.noobscibe.com'
-
 SECRET_KEY = os.getenv("SECRET_KEY", "i&sof=vxv%z15h89yh8dk-@t!!y&7-(y+n1cm@on!-fl=nu3$9")
-REDIS_URL = os.getenv("REDIS_URL", "redis://127.0.0.1:6379/1")
 
-AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-AWS_S3_CUSTOM_DOMAIN = os.getenv('AWS_S3_CUSTOM_DOMAIN')
 
 # Apps definition
 
 core_apps = [
 
-    'noobscribe.accounts',
+    'noobscribe.auth',
     'noobscribe.core',
     'noobscribe.plans',
+    'noobscribe.sales',
+    'noobscribe.api.rest_v1',
 
+    'noobwebs.core',
+    'noobwebs.accounts',
+    'noobwebs.shop',
+
+    'django_numerators',
+    'django_rq',
+    'rest_framework',
     'polymorphic',
+    'taggit',
+    'mptt',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -97,20 +107,6 @@ DATABASES = {
 }
 
 
-# CACHE
-
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": REDIS_URL,
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient"
-        },
-        "KEY_PREFIX": SITE_NAME
-    }
-}
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -140,13 +136,8 @@ STATICFILES_DIRS = [
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
-
 
 # Logging
 
@@ -169,6 +160,10 @@ LOGGING = {
             'handlers': ['console'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'ERROR'),
             'propagate': True,
+        },
+        "rq.worker": {
+            "handlers": ["rq_console", "sentry"],
+            "level": "DEBUG"
         },
     },
 }

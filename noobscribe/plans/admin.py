@@ -1,40 +1,40 @@
 from django.contrib import admin
-from polymorphic.admin import (
-    PolymorphicParentModelAdmin,
-    PolymorphicChildModelAdmin
-    )
 from .models import (
-    Plan, 
-    SubscriberYoutubePlan,
-    ViewYoutubePlan
+    Product,
+    Quota,
+    Membership
     )
 
 
-@admin.register(SubscriberYoutubePlan)
-class SubscriberYoutubePlanAdmin(PolymorphicChildModelAdmin):
-    base_model = Plan
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = [
+        'name',
+        'unit_of_measure',
+        'price',
+    ]
 
 
-@admin.register(ViewYoutubePlan)
-class ViewYoutubePlanAdmin(PolymorphicChildModelAdmin):
-    base_model = Plan
+@admin.register(Membership)
+class MembershipAdmin(admin.ModelAdmin):
+    list_display = [
+        'name',
+        'unit_of_measure',
+        'validity',
+        'price',
+    ]
 
 
-@admin.register(Plan)
-class PlanAdmin(PolymorphicParentModelAdmin):
-    child_models = [
-        SubscriberYoutubePlan,
-        ViewYoutubePlan
+@admin.register(Quota)
+class QuotaAdmin(admin.ModelAdmin):
+    list_filter = [
+        'platform',
+        'balance_type'
     ]
     list_display = [
         'name',
-        'validity',
-        'history_limit',
         'platform',
         'balance_type',
-        'gain_per_day',
-        'give_per_day',
+        'quantity',
         'price',
-        'email_report',
-        'whatsapp_report',
     ]

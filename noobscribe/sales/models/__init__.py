@@ -1,3 +1,2 @@
-from .orders import SalesOrder, OrderProduct, OrderExtraFee
-from .quotations import SalesQuotation, SalesQuotationTemplate, QuotationExtraFee, QuotationProduct, QuotationTerm
+from .orders import SalesOrder, OrderItem, Cart
 from .signals import *

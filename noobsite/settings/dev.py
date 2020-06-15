@@ -6,9 +6,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 INTERNAL_IPS = [
-    # ...
     '127.0.0.1',
-    # ...
 ]
 
 INSTALLED_APPS = [
@@ -25,9 +23,14 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
-# Email
+# EMAIL
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# MEDIA FILES
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
+MEDIA_URL = "/media/"
 
 DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.versions.VersionsPanel',

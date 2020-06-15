@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
-from .orders import OrderExtraFee, OrderItem
+from .orders import OrderItem
 
 
 @receiver(post_save, sender=OrderItem)

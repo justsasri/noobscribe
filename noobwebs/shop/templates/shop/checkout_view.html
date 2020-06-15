@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    {% if object_list.count == 0 %}
+        <h1>Cart is empty</h1>
+        <a href="{% url 'shop_index' %}">Select Product</a>
+    {% else %}
+        {% for item in object_list %}
+            <h1>{{ item.product }}</h1>
+            <ul>
+                <li>Quantity: {{ item.quantity }}</li>
+                <li>Price: {{ item.product.price }} </li>
+            </ul>
+        {% endfor %}
+        <h3>Total: {{ total }}</h3>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Complete Checkout">
+            <input type="button" value="Cancel" onclick="javascript:location.href='{% url 'cart_index' %}'">
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

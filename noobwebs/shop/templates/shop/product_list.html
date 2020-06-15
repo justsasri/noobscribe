@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for product in object_list %}
+    <div>
+        <h1>{{ product.name }}</h1>
+        <ul>
+            <li>{{ product.get_platform_display }}</li>
+            <li>{{ product.get_balance_type_display }}</li>
+            <li>Price: {{ product.price }} </li>
+        </ul>
+        <form action="{% url 'cart_add_product' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="product" value="{{ product.id }}">
+            <input type="submit" value="Add To Cart">
+        </form>
+    </div>
+{% endfor %}
+
+{% endblock %}

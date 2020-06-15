@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import YoutubeChannel
+
+@admin.register(YoutubeChannel)
+class YoutubeChannelAdmin(admin.ModelAdmin):
+    list_display = ['channel_name', 'owner', 'channel_id']

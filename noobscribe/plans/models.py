@@ -2,18 +2,27 @@ import uuid
 import enum
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from polymorphic.models import PolymorphicModel
+from polymorphic.models import PolymorphicModel, PolymorphicManager
+from noobscribe.auth.models import MemberLevel
 
 
 class BalanceType(enum.Enum):
+    FAN = 'FANS'
     FOLLOWER = 'FOLL'
     SUBSCRIBER = 'SUBS'
+    COMMENT = 'COMM'
+    LIKE = 'LIKE'
+    DISLIKE = 'DISL'
     VIEW = 'VIEW'
 
     CHOICES = (
-        (FOLLOWER, _('follower')),
-        (SUBSCRIBER, _('subscriber')),
-        (VIEW, _('view')),
+        (FAN, _('Fan')),
+        (FOLLOWER, _('Follower')),
+        (SUBSCRIBER, _('Subscriber')),
+        (COMMENT, _('Comment')),
+        (LIKE, _('Like')),
+        (DISLIKE, _('Dislike')),
+        (VIEW, _('View')),
     )
 
 
@@ -21,18 +30,26 @@ class PlatformType(enum.Enum):
     YOUTUBE = 'YT'
     FACEBOOK = 'FB'
     INSTAGRAM = 'IG'
+    SOUNDCLOUD = 'SC'
 
     CHOICES = (
-        (YOUTUBE, _('youtube')),
-        (FACEBOOK, _('facebook')),
-        (INSTAGRAM, _('instagram')),
+        (YOUTUBE, _('Youtube')),
+        (FACEBOOK, _('Facebook')),
+        (INSTAGRAM, _('Instagram')),
+        (SOUNDCLOUD, _('SoundCloud')),
     )
 
 
-class Plan(PolymorphicModel):
+class ProductManager(PolymorphicManager):
+
+    def get_queryset(self):
+        return super().get_queryset().non_polymorphic()
+
+
+class Product(PolymorphicModel):
     class Meta:
-        verbose_name = _('plan')
-        verbose_name_plural = _('plans')
+        verbose_name = _('product')
+        verbose_name_plural = _('product')
 
     id = models.UUIDField(
         default=uuid.uuid4,
@@ -41,33 +58,9 @@ class Plan(PolymorphicModel):
         verbose_name='uuid'
     )
     name = models.CharField(max_length=54, verbose_name=_('name'))
-    validity = models.PositiveIntegerField(
-        verbose_name=_('validity'),
-        help_text=_('Validity in days')
-    )
-    history_limit = models.PositiveIntegerField(
-        verbose_name=_('history limit'),
-        help_text=_('History limit in days')
-    )
-    platform = models.CharField(
-        max_length=4, editable=False,
-        choices=PlatformType.CHOICES.value,
-        default=PlatformType.YOUTUBE.value,
-        verbose_name=_('platform')
-    )
-    balance_type = models.CharField(
-        max_length=4, editable=False,
-        choices=BalanceType.CHOICES.value,
-        default=BalanceType.SUBSCRIBER.value,
-        verbose_name=_('balance type')
-    )
-    gain_per_day = models.PositiveIntegerField(
-        verbose_name=_('gain per day'),
-        help_text=_('benefit gained per day')
-    )
-    give_per_day = models.PositiveIntegerField(
-        verbose_name=_('give per day'),
-        help_text=_('effort per day')
+    unit_of_measure = models.CharField(
+        max_length=25, null=True, blank=False,
+        verbose_name=_('unit')
     )
     price = models.DecimalField(
         max_digits=10,
@@ -75,30 +68,52 @@ class Plan(PolymorphicModel):
         verbose_name=_('price'),
         help_text=_('price per month')
     )
-    email_report = models.BooleanField()
-    whatsapp_report = models.BooleanField()
 
     def __str__(self):
         return self.name
 
 
-class SubscriberYoutubePlan(Plan):
+class Membership(Product):
     class Meta:
-        verbose_name = _('YouTube Subscriber')
-        verbose_name_plural = _('YouTube Subscribers')
+        verbose_name = _('Member')
+        verbose_name_plural = _('Member')
 
-    def save(self, *args, **kwargs):
-        self.platform = PlatformType.YOUTUBE.value
-        self.balance_type = BalanceType.SUBSCRIBER.value
-        super().save(*args, **kwargs)
+    member_level = models.ForeignKey(
+        MemberLevel, on_delete=models.CASCADE,
+        null=True, blank=False, # Todo Must not null 
+        related_name='products',
+        verbose_name=_('member level')
+        )
+    validity = models.PositiveIntegerField(
+        verbose_name=_('validity'),
+        help_text=_('validity')
+        )
+
+    def __str__(self):
+        return self.name
 
 
-class ViewYoutubePlan(Plan):
+class Quota(Product):
     class Meta:
-        verbose_name = _('YouTube View')
-        verbose_name_plural = _('YouTube Views')
+        verbose_name = _('Quota')
+        verbose_name_plural = _('Quota')
 
-    def save(self, *args, **kwargs):
-        self.platform = PlatformType.YOUTUBE.value
-        self.balance_type = BalanceType.VIEW.value
-        super().save(*args, **kwargs)
+    platform = models.CharField(
+        max_length=4,
+        choices=PlatformType.CHOICES.value,
+        default=PlatformType.YOUTUBE.value,
+        verbose_name=_('platform')
+    )
+    balance_type = models.CharField(
+        max_length=4,
+        choices=BalanceType.CHOICES.value,
+        default=BalanceType.SUBSCRIBER.value,
+        verbose_name=_('balance type')
+    )
+    quantity = models.PositiveIntegerField(
+        verbose_name=_('quantity'),
+        help_text=_('quantity')
+        )
+
+    def __str__(self):
+        return self.name
