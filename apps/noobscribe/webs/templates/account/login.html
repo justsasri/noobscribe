@@ -1,0 +1,61 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount formutils_tags widget_tweaks static %}
+
+{% block header %}{% endblock %}
+{% block page_header %}{% endblock %}
+{% block title %}{% trans "Sign In" %} - Noobscribe {% endblock %}
+
+
+{% block content %}
+<div class="form-wrapper d-flex justify-content-center m-5">
+  <div class="login-form">
+    <div class="logo text-center">
+      <img src="{% static 'img/logo.png' %}" alt="noobscribe">
+    </div>
+    <h1 class="mb-3 text-center">{% trans "Sign In" %}</h1>
+    <form method="post" class="p-4 bg-white border" action="{% url 'account_login' %}">
+      {% csrf_token %}
+      {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+      <div class="form-group mb-3">
+        <label for="{{ form.login.name }}" class="form-control-label">
+          {{ form.login.label }}{% if form.login.field.required %} <sup class="text-danger">*</sup>{% endif %}
+        </label>
+        {% render_field form.login class="form-control" %}
+        <small class="form-text text-muted">{{ form.login.help_text }}</small>
+        {{ form.login.errors }}
+      </div>
+      <div class="form-group mb-3">
+        <label for="{{ form.password.name }}" class="form-control-label">
+          {{ form.password.label }}{% if form.password.field.required %} <sup class="text-danger">*</sup>{% endif %}
+        </label>
+        <a href="{% url 'account_reset_password' %}" class="forgot-pass float-right">Forgot Password?</a>
+        {% render_field form.password class="form-control" %}
+        <small class="form-text text-muted">{{ form.password.help_text }}</small>
+        {{ form.password.errors }}
+      </div>  
+      
+      <button class="btn btn-primary btn-block mb-3" id="primaryAction" type="submit">{% trans "Sign In" %}</button>
+      <!-- This should be submit button but I replaced it with <a> for demo purposes-->
+      {% get_providers as socialaccount_providers %}
+      <div class="text-center mb-3">- or -</div>
+      {% if socialaccount_providers %}
+        <div class="socialaccount_providers">
+          {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+        </div>
+      {% else %}
+        <p><small>{% blocktrans %}If you have not created an account yet, then please
+        <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</small></p>
+      {% endif %}
+    </form>
+
+    <div>
+      
+    </div>
+  </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,13 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+
+{% block content_main %}
+<h1>{% trans "My Youtube Video" %}</h1>
+
+<ul>
+{% for item in object_list %}
+    <li>{{ item }}</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

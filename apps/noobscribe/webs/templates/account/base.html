@@ -1,0 +1,30 @@
+{% extends 'webs/base.html' %}
+
+{% block extra_css %}
+  {{ blocksuper }}
+  <style>
+    .logo img {
+      max-width: 200px;
+    }
+    .login-form {
+      width: 400px;
+    }
+    .socialaccount_provider.google{
+      background-color: crimson;
+      color: white;
+    }
+    .socialaccount_provider.facebook{
+      background-color: blue;
+      color: white;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+    {% block content_main %}
+        {# comment #} {# endcomment #}
+    {% endblock %}
+    {% block content_sidebar %}
+        {% include 'account/sidebar.html' %}
+    {% endblock %}
+{% endblock %}
